@@ -21,8 +21,8 @@ class Server extends Base {
   urlMap: Map<string, GetCallback | PostCallback> = new Map()
 
   private handleMessage = (message: Message) => {
-    const { method, path, data } = message
-    const url = this.stringifyUrl(method, path)
+    const { method, path, data, port } = message
+    const url = this.stringifyUrl(method, path, port)
     const callback = this.urlMap.get(url)
     if (callback) {
       method === 'get'

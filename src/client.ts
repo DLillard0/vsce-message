@@ -14,16 +14,17 @@ class Client extends Base {
   private handleMessage() {
     window.addEventListener('message', event => {
       const message: Message = event.data
-      const url = this.stringifyUrl(message.method, message.path)
+      const url = this.stringifyUrl(message.method, message.path, message.port)
       const callback = this.urlMap.get(url)
       callback && callback(message.data)
     })
   }
 
-  get(path: string) {
+  get(path: string, port?: number) {
+    const _port = port || this.port
     return new Promise(resolve => {
       const message: Message = {
-        port: this.port,
+        port: _port,
         method: 'get',
         path
       }
@@ -33,10 +34,11 @@ class Client extends Base {
     })
   }
 
-  post(path: string, data: any) {
+  post(path: string, data: any, port?: number) {
+    const _port = port || this.port
     return new Promise(resolve => {
       const message: Message = {
-        port: this.port,
+        port: _port,
         method: 'post',
         path,
         data

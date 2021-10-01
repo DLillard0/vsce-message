@@ -14,8 +14,9 @@ class Base {
   type: 'server' | 'client'
   port: number
 
-  protected stringifyUrl(method: string, path: string) {
-    return this.type + ':' + this.port + '/' + method + '/' + path
+  protected stringifyUrl(method: string, path: string, port?: number) {
+    const _port = port || this.port
+    return this.type + ':' + _port + '/' + method + '/' + path
   }
 }
 

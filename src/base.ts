@@ -1,4 +1,5 @@
 export interface Message {
+  type: 'vsce-message'
   port: number,
   method: 'get' | 'post',
   path: string,

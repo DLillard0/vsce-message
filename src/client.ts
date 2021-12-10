@@ -14,9 +14,11 @@ class Client extends Base {
   private handleMessage() {
     window.addEventListener('message', event => {
       const message: Message = event.data
-      const url = this.stringifyUrl(message.method, message.path, message.port)
-      const callback = this.urlMap.get(url)
-      callback && callback(message.data)
+      if (message && message.type === 'vsce-message') {
+        const url = this.stringifyUrl(message.method, message.path, message.port)
+        const callback = this.urlMap.get(url)
+        callback && callback(message.data)
+      }
     })
   }
 
@@ -24,6 +26,7 @@ class Client extends Base {
     const _port = port || this.port
     return new Promise(resolve => {
       const message: Message = {
+        type: 'vsce-message',
         port: _port,
         method: 'get',
         path
@@ -38,6 +41,7 @@ class Client extends Base {
     const _port = port || this.port
     return new Promise(resolve => {
       const message: Message = {
+        type: 'vsce-message',
         port: _port,
         method: 'post',
         path,

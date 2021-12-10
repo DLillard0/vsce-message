@@ -34,6 +34,7 @@ class Server extends Base {
   private getSend(method: string, path: string) {
     return (data: any) => {
       this.panel.webview.postMessage({
+        type: 'vsce-message',
         port: this.port,
         method,
         path,
